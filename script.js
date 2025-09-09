@@ -22,5 +22,13 @@ if (hasVisited === null) {
     localStorage.setItem('visitCount', count);
 }
 
-// HTML 요소에 방문자 수 표시
-document.getElementById('counter').textContent = count;
+// 카운트 숫자를 문자열로 변환하고, 필요하면 앞에 '0'을 채워 6자리로 만듭니다.
+let countString = String(count).padStart(6, '0');
+
+// 각 자릿수를 해당하는 진공관 span에 표시합니다.
+for (let i = 0; i < countString.length; i++) {
+    const digitElement = document.getElementById(`digit${i + 1}`);
+    if (digitElement) {
+        digitElement.textContent = countString[i];
+    }
+}
