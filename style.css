@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    color: #333;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    padding: 30px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+#counter {
+    font-size: 4em;
+    font-weight: bold;
+    color: #007BFF;
+}
