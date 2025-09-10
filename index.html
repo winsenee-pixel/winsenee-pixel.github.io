@@ -3,30 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>진공관 방문자 카운터</title>
+    <title>간단 방문자 카운터</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="nixie-clock">
-        <div class="nixie-tube">
-            <span class="digit" id="digit1">0</span>
-        </div>
-        <div class="nixie-tube">
-            <span class="digit" id="digit2">0</span>
-        </div>
-        <div class="nixie-tube">
-            <span class="digit" id="digit3">0</span>
-        </div>
-        <div class="nixie-tube">
-            <span class="digit" id="digit4">0</span>
-        </div>
-        <div class="nixie-tube">
-            <span class="digit" id="digit5">0</span>
-        </div>
-        <div class="nixie-tube">
-            <span class="digit" id="digit6">0</span>
-        </div>
+
+    <div id="nixie-clock">
+        <span class="digit-wrapper"><span class="digit"></span></span>
+        <span class="digit-wrapper"><span class="digit"></span></span>
+        <span class="dot">:</span>
+        <span class="digit-wrapper"><span class="digit"></span></span>
+        <span class="digit-wrapper"><span class="digit"></span></span>
+        <span class="dot">:</span>
+        <span class="digit-wrapper"><span class="digit"></span></span>
+        <span class="digit-wrapper"><span class="digit"></span></span>
+    </div>
+
+    <div class="container">
+        <h1>방문자 수</h1>
+        <p id="counter">0</p>
     </div>
     <script src="script.js"></script>
 </body>

@@ -1,73 +1,39 @@
-body {
-    font-family: 'Orbitron', sans-serif; /* 새로운 폰트 적용 */
+/* 기존 CSS 코드 아래에 추가 */
+
+#nixie-clock {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #222; /* 어두운 배경으로 진공관 효과 강조 */
-    color: #eee;
-    text-align: center;
-    overflow: hidden; /* 불필요한 스크롤바 방지 */
+    margin-bottom: 20px;
 }
 
-.nixie-clock {
-    display: flex;
-    background-color: #38251b; /* 나무 받침대 색상 */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    border: 2px solid #5a3d2e;
-    position: relative;
-    z-index: 1;
-}
-
-.nixie-tube {
-    width: 80px; /* 진공관 너비 */
-    height: 120px; /* 진공관 높이 */
-    background: linear-gradient(to bottom, #444 0%, #222 100%); /* 진공관 유리 질감 */
-    border-radius: 10px;
+#nixie-clock .digit-wrapper {
+    width: 50px;
+    height: 70px;
     margin: 0 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #333;
+    border: 2px solid #555;
+    border-radius: 5px;
     position: relative;
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1), 0 0 5px rgba(0, 0, 0, 0.5);
-    overflow: hidden; /* 숫자가 밖으로 나가지 않게 */
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) inset;
 }
 
-.nixie-tube::before { /* 진공관 상단 메탈 캡 */
-    content: '';
+#nixie-clock .digit {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 20px;
-    background: linear-gradient(to bottom, #888 0%, #555 100%);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.3);
-}
-
-.digit {
-    font-size: 4em; /* 숫자 크기 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 4em;
     font-weight: bold;
-    color: #FFA500; /* 주황색 빛 */
-    text-shadow: 0 0 10px #FFA500, 0 0 20px #FFD700, 0 0 30px #FF8C00; /* 네온 효과 */
-    position: relative;
-    z-index: 2;
-    transform: perspective(100px) rotateX(5deg); /* 살짝 기울어진 3D 효과 */
+    color: #ffaa00; /* 주황색 발광 효과 */
+    text-shadow: 0 0 10px #ffaa00, 0 0 20px #ffaa00, 0 0 30px #ffaa00;
 }
 
-/* 아래는 배경에 은은한 빛 효과 */
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(100, 0, 200, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
-    z-index: 0;
-    pointer-events: none;
+#nixie-clock .dot {
+    font-size: 3em;
+    color: #ffaa00;
+    text-shadow: 0 0 10px #ffaa00, 0 0 20px #ffaa00;
+    margin: 0 -2px;
 }

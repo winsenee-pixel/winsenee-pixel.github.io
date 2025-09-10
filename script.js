@@ -1,3 +1,28 @@
+// 시계 관련 코드 (기존 방문자 카운터 코드 위에 추가)
+function updateClock() {
+    const now = new Date();
+    let hours = now.getHours().toString().padStart(2, '0');
+    let minutes = now.getMinutes().toString().padStart(2, '0');
+    let seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    const digits = document.querySelectorAll('#nixie-clock .digit');
+    
+    digits[0].textContent = hours[0];
+    digits[1].textContent = hours[1];
+    digits[2].textContent = minutes[0];
+    digits[3].textContent = minutes[1];
+    digits[4].textContent = seconds[0];
+    digits[5].textContent = seconds[1];
+}
+
+// 1초마다 시계 업데이트
+setInterval(updateClock, 1000);
+
+// 페이지 로드 시 바로 시계 업데이트
+updateClock();
+
+
+// --- 기존 방문자 카운터 코드 ---
 // localStorage에서 방문자 수 가져오기
 let count = localStorage.getItem('visitCount');
 
@@ -22,13 +47,5 @@ if (hasVisited === null) {
     localStorage.setItem('visitCount', count);
 }
 
-// 카운트 숫자를 문자열로 변환하고, 필요하면 앞에 '0'을 채워 6자리로 만듭니다.
-let countString = String(count).padStart(6, '0');
-
-// 각 자릿수를 해당하는 진공관 span에 표시합니다.
-for (let i = 0; i < countString.length; i++) {
-    const digitElement = document.getElementById(`digit${i + 1}`);
-    if (digitElement) {
-        digitElement.textContent = countString[i];
-    }
-}
+// HTML 요소에 방문자 수 표시
+document.getElementById('counter').textContent = count;
