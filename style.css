@@ -1,10 +1,40 @@
-/* 기존 CSS 코드 아래에 추가 */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    color: #333;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    padding: 30px 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 30px; /* 방문자 수 글자 크기 30px로 변경 */
+    margin-bottom: 10px;
+}
+
+#counter {
+    font-size: 50px; /* 방문자 수 숫자 크기 50px로 변경 */
+    font-weight: bold;
+    color: #007BFF;
+}
 
 #nixie-clock {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    margin-top: 150px; /* 시계를 150px 아래로 내리기 */
 }
 
 #nixie-clock .digit-wrapper {
