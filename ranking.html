@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Samurai Western: World Ranking</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding-top: 50px; }
+        h1 { color: #f0883e; text-shadow: 2px 2px #000; font-size: 3em; }
+        .container { background: #161b22; width: 80%; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .rank-item { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #21262d; font-size: 1.5em; }
+        .rank-item:last-child { border-bottom: none; }
+        .name { font-weight: bold; color: #58a6ff; }
+        .score { color: #3fb950; }
+        .gold { color: #d29922 !important; font-size: 1.8em; }
+    </style>
+</head>
+<body>
+    <h1>🏆 Samurai Western Ranking</h1>
+    <div class="container" id="rank-board">데이터를 불러오는 중...</div>
+
+    <script>
+        const dreamloCode = "6798993f8f40bb12f06b9a89"; 
+        // JSON 데이터를 가져오기 위해 dreamlo API 호출
+        fetch(`https://www.dreamlo.com/lb/${dreamloCode}/json`)
+            .then(res => res.json())
+            .then(data => {
+                let entries = data.dreamlo.leaderboard.entry;
+                if (!entries) {
+                    document.getElementById('rank-board').innerHTML = "아직 등록된 기록이 없습니다.";
+                    return;
+                }
+                if (!Array.isArray(entries)) entries = [entries];
+
+                let html = "";
+                entries.slice(0, 10).forEach((p, i) => {
+                    const isFirst = i === 0 ? "gold" : "";
+                    html += `<div class="rank-item ${isFirst}">
+                                <span>${i+1}. <span class="name">${p.name}</span></span>
+                                <span class="score">${p.score}s</span>
+                             </div>`;
+                });
+                document.getElementById('rank-board').innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('rank-board').innerHTML = "서버 연결에 실패했습니다.";
+            });
+    </script>
+</body>
+</html>
