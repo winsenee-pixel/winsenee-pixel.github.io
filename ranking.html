@@ -5,28 +5,25 @@
     <title>Samurai Western: World Ranking</title>
     <style>
         body { background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', sans-serif; text-align: center; padding-top: 50px; }
-        .container { background: #161b22; width: 90%; max-width: 500px; margin: 0 auto; padding: 20px; border-radius: 15px; border: 1px solid #30363d; }
-        h1 { color: #f0883e; }
-        .rank-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #21262d; }
+        .container { background: #161b22; width: 90%; max-width: 500px; margin: 0 auto; padding: 20px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: #f0883e; text-shadow: 2px 2px #000; }
+        .rank-item { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #21262d; font-size: 1.2em; }
         .name { color: #58a6ff; font-weight: bold; }
         .score { color: #3fb950; }
     </style>
 </head>
 <body>
     <h1>🏆 World Ranking</h1>
-    <div class="container" id="rank-board">데이터 로딩 중...</div>
+    <div class="container" id="rank-board">데이터를 불러오는 중...</div>
 
     <script>
-        // http를 https로 변경하여 보안 차단을 막았습니다.
+        // 핵심 수정: http -> https (보안 오류 방지)
         const dreamloCode = "6798993f8f40bb12f06b9a89"; 
         fetch(`https://www.dreamlo.com/lb/${dreamloCode}/json`)
             .then(res => res.json())
             .then(data => {
                 let entries = data.dreamlo.leaderboard.entry;
-                if (!entries) {
-                    document.getElementById('rank-board').innerHTML = "등록된 기록이 없습니다.";
-                    return;
-                }
+                if (!entries) { document.getElementById('rank-board').innerHTML = "기록이 없습니다."; return; }
                 if (!Array.isArray(entries)) entries = [entries];
                 let html = "";
                 entries.slice(0, 10).forEach((p, i) => {
@@ -35,7 +32,7 @@
                 document.getElementById('rank-board').innerHTML = html;
             })
             .catch(err => {
-                document.getElementById('rank-board').innerHTML = "서버 연결 오류 (상진님, HTTPS 주소를 확인해주세요)";
+                document.getElementById('rank-board').innerHTML = "연결 실패 (GitHub 보안 설정 확인)";
             });
     </script>
 </body>
