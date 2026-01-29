@@ -2,67 +2,56 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samurai Western: World Ranking</title>
     <style>
-        body { background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 50px 20px; }
-        h1 { color: #f0883e; text-shadow: 2px 2px #000; font-size: 2.5em; margin-bottom: 30px; }
-        .container { background: #161b22; width: 100%; max-width: 500px; margin: 0 auto; padding: 20px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .rank-item { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #21262d; font-size: 1.2em; }
-        .rank-item:last-child { border-bottom: none; }
-        .name { font-weight: bold; color: #58a6ff; }
+        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; text-align: center; padding: 50px 20px; }
+        .container { background: #161b22; width: 100%; max-width: 450px; margin: 0 auto; padding: 20px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: #f0883e; font-size: 2em; margin-bottom: 25px; }
+        .rank-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #21262d; font-size: 1.1em; }
+        .name { color: #58a6ff; font-weight: bold; }
         .score { color: #3fb950; font-weight: bold; }
-        .loading { font-style: italic; color: #8b949e; }
-        .error { color: #f85149; font-weight: bold; }
+        #status { font-style: italic; color: #8b949e; margin-bottom: 10px; }
     </style>
 </head>
 <body>
     <h1>🏆 Samurai Western Ranking</h1>
+    <div id="status">데이터를 안전하게 불러오는 중...</div>
     <div class="container" id="rank-board">
-        <p class="loading">데이터를 안전하게 불러오는 중...</p>
-    </div>
+        </div>
 
     <script>
-        // 상진님, 여기 주소를 https://www.dreamlo.com 으로 확실히 고정했습니다.
-        const dreamloCode = "6798993f8f40bb12f06b9a89"; 
-        const targetUrl = `https://www.dreamlo.com/lb/${dreamloCode}/json`;
-
-        async function loadRanking() {
+        // dreamlo JSONP 콜백 함수
+        function dreamloJSONP(data) {
             const board = document.getElementById('rank-board');
-            try {
-                const response = await fetch(targetUrl);
-                if (!response.ok) throw new Error('Network response was not ok');
-                
-                const data = await response.json();
-                let entries = data.dreamlo.leaderboard.entry;
-
-                if (!entries) {
-                    board.innerHTML = "<p>아직 등록된 전사들의 기록이 없습니다!</p>";
-                    return;
-                }
-
-                // 데이터가 하나만 있을 경우 배열로 변환
-                if (!Array.isArray(entries)) entries = [entries];
-
-                let html = "";
-                entries.slice(0, 10).forEach((player, index) => {
-                    html += `
-                        <div class="rank-item">
-                            <span>${index + 1}. <span class="name">${player.name}</span></span>
-                            <span class="score">${player.score}s</span>
-                        </div>`;
-                });
-                board.innerHTML = html;
-            } catch (error) {
-                console.error("Fetch Error:", error);
-                board.innerHTML = `
-                    <p class="error">서버 연결에 실패했습니다.</p>
-                    <p style="font-size: 0.8em; color: #8b949e;">상진님, 브라우저 주소창 왼쪽의 자물쇠 아이콘을 눌러<br>'안전하지 않은 콘텐츠 허용'이 필요한지 확인해보세요.</p>
-                `;
+            const status = document.getElementById('status');
+            
+            let entries = data.dreamlo.leaderboard.entry;
+            if (!entries) {
+                board.innerHTML = "<p>등록된 기록이 없습니다.</p>";
+                status.style.display = 'none';
+                return;
             }
+
+            if (!Array.isArray(entries)) entries = [entries];
+            
+            let html = "";
+            entries.slice(0, 10).forEach((p, i) => {
+                html += `<div class="rank-item">
+                            <span>${i+1}. <span class="name">${p.name}</span></span>
+                            <span class="score">${p.score}s</span>
+                         </div>`;
+            });
+            board.innerHTML = html;
+            status.style.display = 'none';
         }
 
-        loadRanking();
+        // 보안 우회를 위해 스크립트 태그를 동적으로 삽입 (JSONP 방식)
+        const script = document.createElement('script');
+        script.src = "https://www.dreamlo.com/lb/6798993f8f40bb12f06b9a89/jsonp?callback=dreamloJSONP";
+        script.onerror = function() {
+            document.getElementById('status').innerHTML = "<span style='color:#f85149'>서버 연결에 실패했습니다. (브라우저 설정을 확인해주세요)</span>";
+        };
+        document.body.appendChild(script);
     </script>
 </body>
 </html>
