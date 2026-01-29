@@ -1,57 +1,37 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Samurai Western: World Ranking</title>
+    <title>Samurai Western Rank</title>
     <style>
-        body { background: #0d1117; color: #c9d1d9; font-family: sans-serif; text-align: center; padding: 50px 20px; }
-        .container { background: #161b22; width: 100%; max-width: 450px; margin: 0 auto; padding: 20px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h1 { color: #f0883e; font-size: 2em; margin-bottom: 25px; }
-        .rank-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #21262d; font-size: 1.1em; }
-        .name { color: #58a6ff; font-weight: bold; }
-        .score { color: #3fb950; font-weight: bold; }
-        #status { font-style: italic; color: #8b949e; margin-bottom: 10px; }
+        body { background: #0d1117; color: white; text-align: center; font-family: sans-serif; }
+        .box { background: #161b22; width: 350px; margin: 50px auto; padding: 20px; border-radius: 10px; border: 1px solid #30363d; }
+        .item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #21262d; }
     </style>
 </head>
 <body>
-    <h1>🏆 Samurai Western Ranking</h1>
-    <div id="status">데이터를 안전하게 불러오는 중...</div>
-    <div class="container" id="rank-board">
-        </div>
+    <h1>🏆 World Ranking</h1>
+    <div class="box" id="board">불러오는 중... (안 나오면 자물쇠 아이콘 설정 확인)</div>
 
     <script>
-        // dreamlo JSONP 콜백 함수
-        function dreamloJSONP(data) {
-            const board = document.getElementById('rank-board');
-            const status = document.getElementById('status');
-            
-            let entries = data.dreamlo.leaderboard.entry;
-            if (!entries) {
-                board.innerHTML = "<p>등록된 기록이 없습니다.</p>";
-                status.style.display = 'none';
-                return;
-            }
-
-            if (!Array.isArray(entries)) entries = [entries];
-            
-            let html = "";
-            entries.slice(0, 10).forEach((p, i) => {
-                html += `<div class="rank-item">
-                            <span>${i+1}. <span class="name">${p.name}</span></span>
-                            <span class="score">${p.score}s</span>
-                         </div>`;
+        // 상진님, 이 주소는 깃허브 보안 정책 때문에 브라우저 설정 변경이 필요할 수 있습니다.
+        const url = "https://www.dreamlo.com/lb/6798993f8f40bb12f06b9a89/json";
+        
+        fetch(url)
+            .then(r => r.json())
+            .then(d => {
+                let e = d.dreamlo.leaderboard.entry;
+                if(!e) { document.getElementById('board').innerHTML = "기록 없음"; return; }
+                if(!Array.isArray(e)) e = [e];
+                let h = "";
+                e.slice(0, 10).forEach((p, i) => {
+                    h += `<div class="item"><span>${i+1}. ${p.name}</span><span>${p.score}s</span></div>`;
+                });
+                document.getElementById('board').innerHTML = h;
+            })
+            .catch(() => {
+                document.getElementById('board').innerHTML = "보안 차단됨<br><br>주소창 자물쇠 버튼 -> 사이트 설정 -> '안전하지 않은 콘텐츠' 허용 후 새로고침하세요!";
             });
-            board.innerHTML = html;
-            status.style.display = 'none';
-        }
-
-        // 보안 우회를 위해 스크립트 태그를 동적으로 삽입 (JSONP 방식)
-        const script = document.createElement('script');
-        script.src = "https://www.dreamlo.com/lb/6798993f8f40bb12f06b9a89/jsonp?callback=dreamloJSONP";
-        script.onerror = function() {
-            document.getElementById('status').innerHTML = "<span style='color:#f85149'>서버 연결에 실패했습니다. (브라우저 설정을 확인해주세요)</span>";
-        };
-        document.body.appendChild(script);
     </script>
 </body>
 </html>
